@@ -6,6 +6,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -50,20 +51,31 @@ public class JpaDynamicMethodInterceptor implements MethodInterceptor {
                 continue;
             }
             if (argument == null){
+                LogUtils.debug("参数 : {} 值为null", parameter.getName());
                 if (parameter.getType().isAssignableFrom(String.class)){
                     arguments[i] = Constant.defaultStr;
-                    LogUtils.debug("参数 : {} 值为null, 设置为默认的String值: {}", parameter.getName(), Constant.defaultStr);
                 }else if (parameter.getType().isAssignableFrom(Date.class)){
                     arguments[i] = Constant.minDate;
-                    LogUtils.debug("参数 : {} 值为null, 设置为默认的Date值: {}", parameter.getName(), Constant.minDate.toString());
                 }else if (parameter.getType().isAssignableFrom(Integer.class)){
                     arguments[i] = Constant.minInt;
-                    LogUtils.debug("参数 : {} 值为null, 设置为默认的Integer值: {}", parameter.getName(), String.valueOf(Constant.minInt));
                 }else if (parameter.getType().isAssignableFrom(java.sql.Date.class)){
                     arguments[i] = Constant.minDate;
-                    LogUtils.debug("参数 : {} 值为null, 设置为默认的java.sql.Date值: {}", parameter.getName(), Constant.minDate.toString());
-                }else {
-
+                }else if (parameter.getType().isAssignableFrom(List.class)
+                        || parameter.getType().isAssignableFrom(Set.class)){
+                    String typeName = parameter.getParameterizedType().getTypeName();
+                    String[] split = typeName.split("<");
+                    if (split.length > 1) {
+                        typeName = split[1].replace(">", "");
+                        if (String.class.getName().equals(typeName)) {
+                            arguments[i] = Arrays.asList(Constant.defaultStr);
+                        }else if (Integer.class.getName().equals(typeName)) {
+                            arguments[i] = Arrays.asList(Constant.minInt);
+                        }else if (BigDecimal.class.getName().equals(typeName)) {
+                            arguments[i] = Arrays.asList(BigDecimal.ZERO);
+                        }
+                    }else {
+                        LogUtils.debug("参数 : {} 值为null, 即将报错", parameter.getName());
+                    }
                 }
                 JpaDynamicSql.addJpaNullParam(parameter.getName());
             }
@@ -77,17 +89,6 @@ public class JpaDynamicMethodInterceptor implements MethodInterceptor {
             JpaDynamicSql.jpaSelectParamNullValue.remove();
             JpaDynamicSql.jpaParamReplace.remove();
         }
-    }
-
-
-    private void ss(){
-        //Java基础，集合，JUC，了解23种设计模式
-        //Spring, SpringMvc, Mybatis, Spring Data Jpa框架
-        //熟悉SpringBoot 基于SpringBoot Starter实现Spring Data Jpa动态Sql，Github: https://github.com/XieXinQuan/groundhog-spring-boot-starter
-        //熟悉Redis，RabbitMQ，Zookeeper分布式中间件
-        //熟悉SpringCloud Alibaba组件
-        //熟悉MySQL PostgreSQL，有SQL优化经验
-        //熟悉Linux常用命令及Java问题分析工具，分析定位生产问题
     }
 
 }

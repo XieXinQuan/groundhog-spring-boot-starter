@@ -5,6 +5,7 @@ import org.apache.logging.log4j.util.Strings;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: xiexinquan520@163.com
@@ -37,12 +38,6 @@ public class Constant {
      * 默认为 ""
      */
     public static String defaultStr = Strings.EMPTY;
-
-    public static Collection defaultCollection = new ArrayList();
-
-    static {
-        defaultCollection.add(new Object());
-    }
 
 
 }
