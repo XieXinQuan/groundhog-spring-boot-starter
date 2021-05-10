@@ -42,7 +42,7 @@
               interceptor: com.quan.JpaDynamicSql
 
 #### 5. 在Repository调用前配置需要动态的key<br>
-#####5.1 example:
+##### 5.1 example:
 ###### MySQL:
     CREATE TABLE `test` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
