@@ -1,5 +1,5 @@
 
-###Spring Boot with Quan support,help you simplify Jpa Dynamic Sql Config in Spring Boot.
+### Spring Boot with Quan support,help you simplify Jpa Dynamic Sql Config in Spring Boot.
 #### 1. 首先把源码下载
     在pom.xml中导入Spring Boot Starter所需的包
 
