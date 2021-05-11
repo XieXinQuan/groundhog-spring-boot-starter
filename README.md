@@ -1,5 +1,9 @@
 
 ### Spring Boot with Quan support,help you simplify Jpa Dynamic Sql Config in Spring Boot.
+
+### 喜欢Spring Data Jpa, 但是他的动态Sql做的不是很好，使用起来很麻烦，所以开发出这款工具来简单的支持动态SQL
+### 基于Spring Boot Starter ，扩展代理JpaRepository接口，在接口调用时对SQL进行动态切割，以此达到动态效果
+
 #### 1. 首先把源码下载
     在pom.xml中导入Spring Boot Starter所需的包
 
