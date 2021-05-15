@@ -108,3 +108,16 @@
 #### 注意: key的规则
     1. 与Jpa生成的字段一致 db: my_name  Java: myName
     2. 范围查询时 大于 > or >= 的key 要加上max Java: myAge key: maxMyAge  小于则min 
+### 扩展, 获取JPA动态sql, 做你自己的定制化
+    @Component
+    @Slf4j
+    public class JpaDynamicSqlListener implements ApplicationListener<JpaDynamicSqlEvent> {
+    
+        @Override
+        public void onApplicationEvent(JpaDynamicSqlEvent jpaDynamicSqlEvent) {
+            JpaEventContent content = (JpaEventContent) jpaDynamicSqlEvent.getSource();
+            log.debug("源SQL:\t{}", content.getOriginSql());
+            log.debug("最终SQL:\t{}", content.getDynamicSql());
+        }
+    }    
+

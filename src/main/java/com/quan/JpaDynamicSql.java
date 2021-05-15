@@ -151,7 +151,12 @@ public class JpaDynamicSql extends EmptyInterceptor {
         resultSql.append(groupSql);
         resultSql.append(orderSql);
         resultSql.append(limitSql);
-        return super.onPrepareStatement(resultSql.toString());
+
+        String result = resultSql.toString();
+        //发布事件
+        JpaSqlPublisher.publisher(sql, result);
+
+        return super.onPrepareStatement(result);
     }
 
     private String dbFieldToJavaField(String dbField){
@@ -163,7 +168,7 @@ public class JpaDynamicSql extends EmptyInterceptor {
                 continue;
             }else {
                 if (i != 0 && chars[i-1] == '_'){
-                    result.append((char) (c + 32));
+                    result.append((char) (c - 32));
                 }else {
                     result.append(c);
                 }

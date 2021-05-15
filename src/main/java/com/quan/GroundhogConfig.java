@@ -17,4 +17,9 @@ public class GroundhogConfig {
     public JpaDynamicProxy jpaDynamicProxy(){
         return new JpaDynamicProxy();
     }
+
+    @Bean
+    public JpaSqlPublisher jpaSqlPublisher(){
+        return new JpaSqlPublisher();
+    }
 }
